@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>手写轮播图</title>
+    <style>
+      .container {
+        margin: 20vh auto;
+        width: 60vw;
+        position: relative;
+      }
+
+      .slider img {
+        display: none;
+        width: 100%;
+        border-radius: 4px;
+      }
+      .prev,
+      .next {
+        position: absolute;
+        top: 50%;
+        width: 20px;
+        height: 30px;
+        margin-top: -15px;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 10px;
+        user-select: none;
+        transition: 0.6s ease;
+      }
+      .prev {
+        border-radius: 0 3px 3px 0;
+        left: 0;
+      }
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .nav {
+        position: absolute;
+        width: 12vw;
+        margin-left: -6vw;
+        display: flex;
+        justify-content: space-evenly;
+        bottom: 1vh;
+        left: 50%;
+      }
+      .dot {
+        list-style-type: none;
+        cursor: pointer;
+        background-color: #fff;
+        width: 1.5vw;
+        height: 1.5vw;
+        border-radius: 50%;
+        transition: background-color 0.6s ease;
+      }
+      .selected {
+        background-color: #ff5000;
+      }
+
+      .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="slider">
+        <img class="fade" src="./img/1.jpg" alt="" />
+        <img class="fade" src="./img/2.jpg" alt="" />
+        <img class="fade" src="./img/3.jpg" alt="" />
+        <img class="fade" src="./img/4.jpg" alt="" />
+
+        <a class="prev" onclick="prev()">&lt;</a>
+        <a class="next" onclick="next()">&gt;</a>
+
+        <ul class="nav">
+          <li class="dot selected" onclick="turnToSlide(0)"></li>
+          <li class="dot" onclick="turnToSlide(1)"></li>
+          <li class="dot" onclick="turnToSlide(2)"></li>
+          <li class="dot" onclick="turnToSlide(3)"></li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      let slideIndex = 0
+      let timer
+
+      function deleteTimer () {
+        clearTimeout(timer)
+        timer = null
+      }
+
+      showSlide(slideIndex)
+
+      function next () {
+        showSlide(++slideIndex)
+      }
+
+      function turnToSlide (index) {
+        showSlide((slideIndex = index))
+      }
+      function prev () {
+        showSlide(--slideIndex)
+      }
+
+      function showSlide (index) {
+        deleteTimer()
+        const slides = document.querySelectorAll('img')
+        const dots = document.querySelectorAll('.dot')
+        if (index >= slides.length) {
+          slideIndex = 0
+        }
+        if (index < 0) {
+          slideIndex = slides.length - 1
+        }
+        for (let i = 0; i < slides.length; i++) {
+          slides[i].style.display = 'none'
+        }
+        for (let i = 0; i < dots.length; i++) {
+          dots[i].classList.remove('selected')
+        }
+        slides[slideIndex].style.display = 'block'
+        dots[slideIndex].classList.add('selected')
+        timer = setTimeout(next, 3000)
+      }
+    </script>
+  </body>
+</html>
