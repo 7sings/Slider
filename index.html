@@ -98,19 +98,19 @@
       <img class="fade" src="./img/3.jpg" alt="" />
       <img class="fade" src="./img/4.jpg" alt="" />
 
-      <a class="prev" onclick="prev()">&lt;</a>
-      <a class="next" onclick="next()">&gt;</a>
+      <a class="prev" onclick="slider.prev()">&lt;</a>
+      <a class="next" onclick="slider.next()">&gt;</a>
 
       <ul class="nav">
-        <li class="dot selected" onclick="turnToSlide(0)"></li>
-        <li class="dot" onclick="turnToSlide(1)"></li>
-        <li class="dot" onclick="turnToSlide(2)"></li>
-        <li class="dot" onclick="turnToSlide(3)"></li>
+        <li class="dot selected" onclick="slider.turnToSlide(0)"></li>
+        <li class="dot" onclick="slider.turnToSlide(1)"></li>
+        <li class="dot" onclick="slider.turnToSlide(2)"></li>
+        <li class="dot" onclick="slider.turnToSlide(3)"></li>
       </ul>
     </div>
 
     <script>
-      ;(function showSlide () {
+      function Slider () {
         let slideIndex = 0
         let timer,
           flag = 0
@@ -120,44 +120,51 @@
           timer = null
         }
 
-        showSlide(slideIndex)
-
         function next () {
-          showSlide(++slideIndex)
+          slideIndex++
+          showSlide()
         }
 
         function turnToSlide (index) {
-          showSlide((slideIndex = index))
+          if (index === slideIndex) return
+          slideIndex = index
+          showSlide()
         }
         function prev () {
-          showSlide(--slideIndex)
+          slideIndex--
+          showSlide()
         }
 
-        function showSlide (index) {
+        function showSlide () {
           deleteTimer()
           const slides = document.querySelectorAll('img')
           const dots = document.querySelectorAll('.dot')
-          if (index >= slides.length) {
+          if (slideIndex >= slides.length) {
             slideIndex = 0
           }
-          if (index < 0) {
+          if (slideIndex < 0) {
             slideIndex = slides.length - 1
           }
 
           slides[flag].style.display = 'none'
           dots[flag].classList.remove('selected')
-          // for (let i = 0; i < slides.length; i++) {
-          //   slides[i].style.display = 'none'
-          // }
-          // for (let i = 0; i < dots.length; i++) {
-          //   dots[i].classList.remove('selected')
-          // }
+
           slides[slideIndex].style.display = 'block'
           dots[slideIndex].classList.add('selected')
+
           flag = slideIndex
+
           timer = setTimeout(next, 5000)
         }
-      })()
+        return {
+          prev,
+          next,
+          showSlide,
+          turnToSlide
+        }
+      }
+      const slider = Slider()
+      slider.showSlide()
     </script>
   </body>
 </html>
