@@ -7,9 +7,17 @@
     <title>手写轮播图</title>
     <style>
       .container {
-        margin: 20vh auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%);
         width: 60vw;
         position: relative;
+      }
+
+      @media screen and (max-width: 900px) {
+        .container {
+          width: 100vw;
+        }
       }
 
       .slider img {
@@ -105,7 +113,8 @@
 
     <script>
       let slideIndex = 0
-      let timer
+      let timer,
+        flag = 0
 
       function deleteTimer () {
         clearTimeout(timer)
@@ -135,14 +144,18 @@
         if (index < 0) {
           slideIndex = slides.length - 1
         }
-        for (let i = 0; i < slides.length; i++) {
-          slides[i].style.display = 'none'
-        }
-        for (let i = 0; i < dots.length; i++) {
-          dots[i].classList.remove('selected')
-        }
+
+        slides[flag].style.display = 'none'
+        dots[flag].classList.remove('selected')
+        // for (let i = 0; i < slides.length; i++) {
+        //   slides[i].style.display = 'none'
+        // }
+        // for (let i = 0; i < dots.length; i++) {
+        //   dots[i].classList.remove('selected')
+        // }
         slides[slideIndex].style.display = 'block'
         dots[slideIndex].classList.add('selected')
+        flag = slideIndex
         timer = setTimeout(next, 3000)
       }
     </script>
