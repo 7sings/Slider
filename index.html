@@ -10,13 +10,35 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%);
-        width: 60vw;
+        width: 50vw;
         position: relative;
       }
 
-      @media screen and (max-width: 900px) {
+      @media screen and (max-width: 1024px) {
         .slider {
           width: 100vw;
+        }
+      }
+
+      @media (any-pointer: fine) {
+        .slider {
+          margin-top: 5vh;
+        }
+      }
+
+      /* @media (min-aspect-ratio: 4/3) {
+        .slider {
+          width: 100vw;
+        }
+      } */
+
+      @media (any-hover: none) {
+        .slider {
+          width: 100vw;
+        }
+        .prev,
+        .next {
+          display: none;
         }
       }
 
